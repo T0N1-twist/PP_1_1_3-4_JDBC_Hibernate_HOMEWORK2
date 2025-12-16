@@ -39,7 +39,7 @@ public class Main {
         userDao.dropUsersTable();
         System.out.println("Таблица удалена");
 
-
+        // Homework completed
 
     }
 }
