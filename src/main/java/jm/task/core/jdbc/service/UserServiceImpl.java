@@ -8,12 +8,7 @@ import java.util.List;
 
 public class UserServiceImpl implements UserService {
 
-    private final UserDao userDao;
-
-    public UserServiceImpl() {
-        this.userDao = new UserDaoJDBCImpl();
-    }
-
+    private final UserDao userDao = new UserDaoJDBCImpl();
 
     @Override
     public void createUsersTable() {

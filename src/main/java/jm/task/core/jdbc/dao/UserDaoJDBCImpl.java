@@ -20,27 +20,13 @@ public class UserDaoJDBCImpl implements UserDao {
             age TINYINT
             )
             """;
+    private static final String DROP_TABLE_SQL = "DROP TABLE IF EXISTS users";
+    private static final String INSERT_USER_SQL = "INSERT INTO users (name, lastName, age) VALUES (?, ?, ?)";
+    private static final String DELETE_BY_ID_SQL = "DELETE FROM users WHERE id = ?";
+    private static final String SELECT_ALL_SQL = "SELECT id, name, lastName, age FROM users";
+    private static final String CLEAN_TABLE_SQL = "TRUNCATE TABLE users";
 
-    private static final String DROP_TABLE_SQL =
-            "DROP TABLE IF EXISTS users";
-
-    private static final String INSERT_USER_SQL =
-            "INSERT INTO users (name, lastName, age) VALUES (?, ?, ?)";
-
-    private static final String DELETE_BY_ID_SQL =
-            "DELETE FROM users WHERE id = ?";
-
-    private static final String SELECT_ALL_SQL =
-            "SELECT id, name, lastName, age FROM users";
-
-    private static final String CLEAN_TABLE_SQL =
-            "TRUNCATE TABLE users";
-
-    private final Connection connection;
-    public UserDaoJDBCImpl() {
-        this.connection = new Util().getConnection();
-
-    }
+    private final Connection connection = new Util().getConnection();
 
     @Override
     public void createUsersTable() {
@@ -62,14 +48,11 @@ public class UserDaoJDBCImpl implements UserDao {
 
     @Override
     public void saveUser(String name, String lastName, byte age) {
-        try (PreparedStatement ps =
-                     connection.prepareStatement(INSERT_USER_SQL)) {
-
+        try (PreparedStatement ps = connection.prepareStatement(INSERT_USER_SQL)) {
             ps.setString(1, name);
             ps.setString(2, lastName);
             ps.setByte(3, age);
             ps.executeUpdate();
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -77,12 +60,9 @@ public class UserDaoJDBCImpl implements UserDao {
 
     @Override
     public void removeUserById(long id) {
-        try (PreparedStatement ps =
-                     connection.prepareStatement(DELETE_BY_ID_SQL)) {
-
+        try (PreparedStatement ps = connection.prepareStatement(DELETE_BY_ID_SQL)) {
             ps.setLong(1, id);
             ps.executeUpdate();
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -92,10 +72,8 @@ public class UserDaoJDBCImpl implements UserDao {
     @Override
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
-
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(SELECT_ALL_SQL)) {
-
             while (resultSet.next()) {
                 User user = new User();
                 user.setId(resultSet.getLong("id"));
@@ -104,7 +82,6 @@ public class UserDaoJDBCImpl implements UserDao {
                 user.setAge(resultSet.getByte("age"));
                 users.add(user);
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
