@@ -16,12 +16,12 @@ public class Main {
 
         System.out.println("\n Добавление пользователей");
 
-        userService.saveUser("John", "Doe", (byte) 25);
-        System.out.println("User с именем John добавлен в базу данных");
-        userService.saveUser("Natasha", "Rostova", (byte) 16);
-        System.out.println("User с именем Natasha добавлен в базу данных");
-        userService.saveUser("Andrei", "Bolkonskiy", (byte) 28);
-        System.out.println("User с именем Andrei добавлен в базу данных");
+        userService.saveUser("Tony", "Twist", (byte) 25);
+        System.out.println("User с именем Tony добавлен в базу данных");
+        userService.saveUser("Sofia", "Rodina", (byte) 39);
+        System.out.println("User с именем Jim добавлен в базу данных");
+        userService.saveUser("Nina", "Kravitz", (byte) 34);
+        System.out.println("User с именем Nina добавлен в базу данных");
 
         System.out.println("Получены пользователи");
         userService.getAllUsers().forEach(System.out::println);
