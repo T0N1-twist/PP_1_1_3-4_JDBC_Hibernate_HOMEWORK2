@@ -6,6 +6,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
+import org.hibernate.service.ServiceRegistry;
 
 
 import java.sql.Connection;
@@ -19,7 +20,7 @@ public class Util {
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root148155";
 
-    private static SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
 
     public Connection getConnection() {
         try {
@@ -29,7 +30,7 @@ public class Util {
         }
     }
 
-    public static SessionFactory getSessionFactory() {
+    public SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
             try {
                 Configuration configuration = new Configuration();
@@ -46,10 +47,9 @@ public class Util {
                 configuration.setProperties(settings);
                 configuration.addAnnotatedClass(User.class);
 
-                StandardServiceRegistryBuilder builder =
-                        new StandardServiceRegistryBuilder()
-                                .applySettings(configuration.getProperties());
-                sessionFactory = configuration.buildSessionFactory(builder.build());
+                ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
+                        .applySettings(configuration.getProperties())
+                        .build();
             } catch (Exception e) {
                 throw new RuntimeException("Не удалось создать SessionFactory", e);
             }
