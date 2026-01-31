@@ -22,6 +22,18 @@ public class Util {
 
     private SessionFactory sessionFactory;
 
+    private static Util instance;
+
+    private Util() {}
+
+    public static Util getInstance() {
+        if (instance == null) {
+            instance = new Util();
+        }
+        return instance;
+    }
+
+
     public Connection getConnection() {
         try {
             return DriverManager.getConnection(URL, USERNAME, PASSWORD);
@@ -50,6 +62,8 @@ public class Util {
                 ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                         .applySettings(configuration.getProperties())
                         .build();
+
+                sessionFactory = configuration.buildSessionFactory(serviceRegistry);
             } catch (Exception e) {
                 throw new RuntimeException("Не удалось создать SessionFactory", e);
             }
