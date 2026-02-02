@@ -20,19 +20,6 @@ public class Util {
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root148155";
 
-    private SessionFactory sessionFactory;
-
-    private static Util instance;
-
-    private Util() {}
-
-    public static Util getInstance() {
-        if (instance == null) {
-            instance = new Util();
-        }
-        return instance;
-    }
-
 
     public Connection getConnection() {
         try {
@@ -43,9 +30,9 @@ public class Util {
     }
 
     public SessionFactory getSessionFactory() {
-        if (sessionFactory == null) {
             try {
                 Configuration configuration = new Configuration();
+
                 Properties settings = new Properties();
                 settings.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
                 settings.put(Environment.URL, URL);
@@ -62,13 +49,13 @@ public class Util {
                 ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                         .applySettings(configuration.getProperties())
                         .build();
+                return configuration.buildSessionFactory(serviceRegistry);
 
-                sessionFactory = configuration.buildSessionFactory(serviceRegistry);
             } catch (Exception e) {
                 throw new RuntimeException("Не удалось создать SessionFactory", e);
             }
-        }
-            return  sessionFactory;
+
+
     }
 
 
