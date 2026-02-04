@@ -20,7 +20,7 @@ public class Util {
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root148155";
 
-
+    private static SessionFactory sessionFactory;
     public Connection getConnection() {
         try {
             return DriverManager.getConnection(URL, USERNAME, PASSWORD);
@@ -30,6 +30,7 @@ public class Util {
     }
 
     public SessionFactory getSessionFactory() {
+        if (sessionFactory == null) {
             try {
                 Configuration configuration = new Configuration();
 
@@ -49,11 +50,13 @@ public class Util {
                 ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                         .applySettings(configuration.getProperties())
                         .build();
-                return configuration.buildSessionFactory(serviceRegistry);
+                sessionFactory = configuration.buildSessionFactory(serviceRegistry);
 
             } catch (Exception e) {
                 throw new RuntimeException("Не удалось создать SessionFactory", e);
             }
+        }
+        return sessionFactory;
 
 
     }

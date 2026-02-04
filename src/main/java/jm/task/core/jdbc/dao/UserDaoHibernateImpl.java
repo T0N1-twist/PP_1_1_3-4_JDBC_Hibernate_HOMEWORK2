@@ -32,12 +32,10 @@ public class UserDaoHibernateImpl implements UserDao {
             session.createNativeQuery(CREATE_TABLE_SQL).executeUpdate();
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new RuntimeException("Не удалось создать таблицу", e);
         }
     }
+
     @Override
     public void dropUsersTable() {
         Transaction transaction = null;
@@ -46,12 +44,10 @@ public class UserDaoHibernateImpl implements UserDao {
             session.createNativeQuery(DROP_TABLE_SQL).executeUpdate();
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new RuntimeException("Не удалось удалить таблицу!", e);
         }
     }
+
     @Override
     public void saveUser(String name, String lastName, byte age) {
         Transaction transaction = null;
@@ -66,6 +62,7 @@ public class UserDaoHibernateImpl implements UserDao {
             throw new RuntimeException("Не удалось сохранить пользователя", e);
         }
     }
+
     @Override
     public void removeUserById(long id) {
         Transaction transaction = null;
@@ -83,6 +80,7 @@ public class UserDaoHibernateImpl implements UserDao {
             throw new RuntimeException("Не удалось удалить пользователя по ID", e);
         }
     }
+
     @Override
     public List<User> getAllUsers() {
         Transaction transaction = null;
@@ -98,6 +96,7 @@ public class UserDaoHibernateImpl implements UserDao {
             throw new RuntimeException("Не удалось получить список пользователей", e);
         }
     }
+
     @Override
     public void cleanUsersTable() {
         Transaction transaction = null;
