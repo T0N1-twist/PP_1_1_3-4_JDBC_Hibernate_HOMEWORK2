@@ -20,7 +20,7 @@ public class Util {
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root148155";
 
-    private static SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
     public Connection getConnection() {
         try {
             return DriverManager.getConnection(URL, USERNAME, PASSWORD);
